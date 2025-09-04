@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 export default function Home() {
-  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-pink-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
       {/* Hero Section - Full Page */}
@@ -21,7 +20,7 @@ export default function Home() {
               Connect with like-minded people through live streaming, meaningful
               conversations, and authentic connections.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-8 justify-center mb-8">
               <Link
                 href="/matches"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"

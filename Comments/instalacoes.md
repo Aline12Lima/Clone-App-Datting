@@ -67,3 +67,4 @@ try e catch pega o erro e trata
 # use um email valido para testar, se você informar um email valido ele precisa aparece na plataforma do supabase em autenticações e vocÊ receberá um email de confirmação. olhe o consele.log também. 
 
 # contexts (../context.page.tsx)
+de uma forma resumida o arquivo context, valida as informaçções do input auth. 
