@@ -1,17 +1,29 @@
 "use client";
+
+import { useAuth } from "../../context/auth-context";
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AuthPage() {
-  const [isSignUp, setIsSingUp] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>("");
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
   const supabase = createClient();
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
 
-  async function handleAuth(e: React.FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    if (user && !authLoading) {
+      router.push("/");
+    }
+  }, [user, authLoading, router]);
+
+  async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
+
     setLoading(true);
     setError("");
 
@@ -21,9 +33,10 @@ export default function AuthPage() {
           email,
           password,
         });
+
         if (error) throw error;
         if (data.user && !data.session) {
-          setError("Please check your email for the confirmation link");
+          setError("Please check your email for a confirmation link");
           return;
         }
       } else {
@@ -35,6 +48,8 @@ export default function AuthPage() {
       }
     } catch (error: any) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -43,8 +58,7 @@ export default function AuthPage() {
       <div className="max-w-md w-full space-y-8 p-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            {" "}
-            Match
+            StreamMatch
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
             {isSignUp ? "Create Your Account" : "Sign in to your account"}
@@ -105,12 +119,12 @@ export default function AuthPage() {
 
         <div className="text-center">
           <button
-            onClick={() => setIsSingUp(!isSignUp)}
+            onClick={() => setIsSignUp(!isSignUp)}
             className="text-pink-600 dark:text-pink-400 hover:text-pink-500 dark:hover:text-pink-300 text-sm"
           >
             {isSignUp
-              ? "Already have account ? Sign in"
-              : "Don't have an account ? Sign up"}
+              ? "Already have an account? Sign in"
+              : "Don't have an account? Sign up"}
           </button>
         </div>
       </div>
